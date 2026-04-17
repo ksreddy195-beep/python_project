@@ -32,15 +32,10 @@ jobs:
     - name: Install kubectl
       uses: azure/setup-kubectl@v3
 
-    # Configure kubeconfig
-    - name: Set kubeconfig
+    - name: Deploy to Kubernetes
       run: |
         echo "${{ secrets.KUBECONFIG }}" > kubeconfig
         export KUBECONFIG=$PWD/kubeconfig
 
-    # Deploy to Kubernetes
-    - name: Deploy
-      run: |
         kubectl apply -f deployment.yaml
         kubectl apply -f service.yaml
-        kubectl rollout restart deployment python-app
